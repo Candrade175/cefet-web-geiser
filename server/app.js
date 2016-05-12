@@ -28,6 +28,11 @@ var db = {
 // EXERCÍCIO 1
 // configurar para servir os arquivos estáticos da pasta "client"
 // dica: 1 linha de código
+app.use(express.static('client'));
 
 // abrir servidor na porta 3000
 // dica: 1-3 linhas de código
+
+app.listen(3000, function () {
+  console.log('Listening');
+});
