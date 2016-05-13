@@ -4,7 +4,9 @@
   "description": "um registrador de jogos",
   "main": "index.js",
   "dependencies": {
-    "express": "latest"
+    "express": "latest",
+    "hbs": "^4.0.0",
+    "pug": "^2.0.0-alpha7"
   },
   "devDependencies": {},
   "scripts": {
