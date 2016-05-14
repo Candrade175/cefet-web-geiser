@@ -39,10 +39,12 @@
                 <dt>País:</dt><dd>{{loccountrycode}}</dd>
                 <dt>Perfil no steam:</dt><dd><a href={{profileurl}}>@{{personaname}}</a></dd>
             {{/with}}
+
             {{#with games}}
                 <dt>Quantidade jogos:</dt><dd>{{game_count}}</dd>
-                <dt>Não jogados:</dt><dd>24</dd>
             {{/with}}
+
+                <dt>Não jogados:</dt><dd>{{notPlayedYet}}</dd>
               </dl>
             </div>
           </div>
@@ -50,6 +52,7 @@
       </div>
 
       <!-- Card de detalhes do jogo mais jogado (direita) -->
+      {{#with favoriteGame}}
       <div class="col-md-9">
         <div class="row-fluid">
           <h2>O jogo favorito</h2>
@@ -57,20 +60,22 @@
         <div class="row-fluid">
           <div class="game-detailed-card media">
             <div class="media-left">
-              <img src="http://media.steampowered.com/steamcommunity/public/images/apps/200510/eaa298d2b0d908b2c4f5370d2c8c59a8eff887c6.jpg" class="game-logo">
+              <img src="http://media.steampowered.com/steamcommunity/public/images/apps/200510/{{img_logo_url}}.jpg" class="game-logo">
             </div>
             <div class="media-body">
-              <h4 class="media-heading">XCOM: Enemy Unknown</h4>
+              <h4 class="media-heading">{{name}}</h4>
               <dl class="dl-horizontal">
-                <dt>Tempo de jogo:</dt><dd>34h</dd>
-                <dt>Estatísticas completas:</dt><dd>http://steamcommunity.com/profiles/76561198009353585/stats/200510</dd>
+                <dt>Tempo de jogo:</dt><dd>{{playtime_forever}}h</dd>
+                <dt>Estatísticas completas:</dt><dd>http://steamcommunity.com/profiles/{{player.steamid}}/stats/{{appid}}</dd>
               </dl>
             </div>
           </div>
         </div>
       </div>
+      {{/with}}
     </div>
 
+    {{#each topFive}}
     <!-- Lista dos top 5 jogos mais jogados -->
     <div class="row-fluid">
       <div class="col-md-11 col-md-offset-1">
@@ -82,13 +87,13 @@
             <!-- Primeiro card de jogo -->
             <li class="media game-card">
               <div class="media-left media-middle">
-                <img src="http://media.steampowered.com/steamcommunity/public/images/apps/105600/e3f375e78ada9d2ec7ffa521fe1b0052d1d2bbb5.jpg">
+                <img src="http://media.steampowered.com/steamcommunity/public/images/apps/105600/{{img_logo_url}}.jpg">
               </div>
               <div class="media-body media-middle">
-                <h4>Terraria</h4>
+                <h4>{{name}}</h4>
               </div>
               <div class="media-right media-middle">
-                <span class="badge">40h</span>
+                <span class="badge">{{playtime_forever}}h</span>
               </div>
             </li>
             <!-- Próximo jogo aqui -->
@@ -96,6 +101,7 @@
         </div>
       </div>
     </div>
+    {{/each}}
   </div>
 </body>
 </html>

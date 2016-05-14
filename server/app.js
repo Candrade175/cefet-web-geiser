@@ -6,9 +6,12 @@ var express = require('express'),
     fs = require('fs'),
     games,
  	Handlebars = require('hbs'),
+ 	notPlayedYet,
+ 	orderedListOfGames,
     player,
     playerGames,
     players,
+    topFive,
  	urlJogador = '/jogador/',
 
  	//JSDOM
@@ -66,12 +69,24 @@ app.get('/', function (req, res) {
 app.get(urlJogador + '*', function (req, res) {
 	player = _.find(players, function(num) { return req.url.indexOf(num.steamid) != -1 });
 	playerGames = _.find(Object.keys(games), function(num) { return num == player.steamid });
+	orderedListOfGames = _.sortBy(games[playerGames].games, function(num) { return (-1*num.playtime_forever); });
+	notPlayedYet = 0;
+	topFive = _.map(_.first(orderedListOfGames, [5]), function (num) { num.playtime_forever /= 60 ; return num; });
 
-	console.log(games[playerGames].game_count);
+	console.log(topFive);
 
+	for (var i = 0; i < games[playerGames].games.length; i++)
+		if (games[playerGames].games[i].playtime_forever == 0)
+			notPlayedYet++;
+
+	
+	
 	res.render('jogador', {
 		player: player,
-		games: games[playerGames]
+		games: games[playerGames],
+		notPlayedYet: notPlayedYet,
+		favoriteGame: topFive[0],
+		topFive: topFive
 	});
 
 	
