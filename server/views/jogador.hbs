@@ -29,53 +29,52 @@
         <div class="media-list">
           <div class="media player-card-stacked">
             {{#with player}}
-            <div class="media-middle" href="#">
-              <img src={{avatarmedium}} class="avatar">
-            </div>
-            <div class="media-body">
-              <h3 class="media-heading"><a href="/jogador/{{steamid}}/">{{personaname}}</a></h3>
-              <dl class="dl-horizontal">
-                <dt>Nome real:</dt><dd>{{realname}}</dd>
-                <dt>País:</dt><dd>{{loccountrycode}}</dd>
-                <dt>Perfil no steam:</dt><dd><a href={{profileurl}}>@{{personaname}}</a></dd>
+              <div class="media-middle" href="#">
+                <img src={{avatarmedium}} class="avatar">
+              </div>
+              <div class="media-body">
+                <h3 class="media-heading"><a href="/jogador/{{steamid}}/">{{personaname}}</a></h3>
+                <dl class="dl-horizontal">
+                  <dt>Nome real:</dt><dd>{{realname}}</dd>
+                  <dt>País:</dt><dd>{{loccountrycode}}</dd>
+                  <dt>Perfil no steam:</dt><dd><a href={{profileurl}}>@{{personaname}}</a></dd>
             {{/with}}
 
-            {{#with games}}
-                <dt>Quantidade jogos:</dt><dd>{{game_count}}</dd>
-            {{/with}}
+                  {{#with games}}
+                    <dt>Quantidade jogos:</dt><dd>{{game_count}}</dd>
+                  {{/with}}
 
-                <dt>Não jogados:</dt><dd>{{notPlayedYet}}</dd>
-              </dl>
-            </div>
+                  <dt>Não jogados:</dt><dd>{{notPlayedYet}}</dd>
+                </dl>
+              </div>
           </div>
         </div>
       </div>
 
       <!-- Card de detalhes do jogo mais jogado (direita) -->
       {{#with favoriteGame}}
-      <div class="col-md-9">
-        <div class="row-fluid">
-          <h2>O jogo favorito</h2>
-        </div>
-        <div class="row-fluid">
-          <div class="game-detailed-card media">
-            <div class="media-left">
-              <img src="http://media.steampowered.com/steamcommunity/public/images/apps/{{[0].appid}}/{{[0].img_logo_url}}.jpg" class="game-logo">
-            </div>
-            <div class="media-body">
-              <h4 class="media-heading">{{[0].name}}</h4>
-              <dl class="dl-horizontal">
-                <dt>Tempo de jogo:</dt><dd>{{[0].playtime_forever}}h</dd>
-                  <dt>Estatísticas completas:</dt><dd>http://steamcommunity.com/profiles/{{[1]}}/stats/{{[0].appid}}</dd>
-              </dl>
+        <div class="col-md-9">
+          <div class="row-fluid">
+            <h2>O jogo favorito</h2>
+          </div>
+          <div class="row-fluid">
+            <div class="game-detailed-card media">
+              <div class="media-left">
+                <img src="http://media.steampowered.com/steamcommunity/public/images/apps/{{[0].appid}}/{{[0].img_logo_url}}.jpg" class="game-logo">
+              </div>
+              <div class="media-body">
+                <h4 class="media-heading">{{[0].name}}</h4>
+                <dl class="dl-horizontal">
+                  <dt>Tempo de jogo:</dt><dd>{{[0].playtime_forever}}h</dd>
+                    <dt>Estatísticas completas:</dt><dd>http://steamcommunity.com/profiles/{{[1]}}/stats/{{[0].appid}}</dd>
+                </dl>
+              </div>
             </div>
           </div>
         </div>
-      </div>
       {{/with}}
     </div>
 
-    {{#each topFive}}
     <!-- Lista dos top 5 jogos mais jogados -->
     <div class="row-fluid">
       <div class="col-md-11 col-md-offset-1">
@@ -85,23 +84,24 @@
         <div class="row-fluid">
           <ul class="col-md-12 games-card-list media-list">
             <!-- Primeiro card de jogo -->
-            <li class="media game-card">
-              <div class="media-left media-middle">
-                <img src="http://media.steampowered.com/steamcommunity/public/images/apps/{{appid}}/{{img_logo_url}}.jpg">
-              </div>
-              <div class="media-body media-middle">
-                <h4>{{name}}</h4>
-              </div>
-              <div class="media-right media-middle">
-                <span class="badge">{{playtime_forever}}h</span>
-              </div>
-            </li> 
+            {{#each topFive}}
+              <li class="media game-card">
+                <div class="media-left media-middle">
+                  <img src="http://media.steampowered.com/steamcommunity/public/images/apps/{{appid}}/{{img_logo_url}}.jpg">
+                </div>
+                <div class="media-body media-middle">
+                  <h4>{{name}}</h4>
+                </div>
+                <div class="media-right media-middle">
+                  <span class="badge">{{playtime_forever}}h</span>
+                </div>
+              </li> 
+              {{/each}}
             <!-- Próximo jogo aqui -->
           </ul>
         </div>
       </div>
     </div>
-    {{/each}}
   </div>
 </body>
 </html>
