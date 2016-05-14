@@ -60,13 +60,13 @@
         <div class="row-fluid">
           <div class="game-detailed-card media">
             <div class="media-left">
-              <img src="http://media.steampowered.com/steamcommunity/public/images/apps/{{appid}}/{{img_logo_url}}.jpg" class="game-logo">
+              <img src="http://media.steampowered.com/steamcommunity/public/images/apps/{{[0].appid}}/{{[0].img_logo_url}}.jpg" class="game-logo">
             </div>
             <div class="media-body">
-              <h4 class="media-heading">{{name}}</h4>
+              <h4 class="media-heading">{{[0].name}}</h4>
               <dl class="dl-horizontal">
-                <dt>Tempo de jogo:</dt><dd>{{playtime_forever}}h</dd>
-                <dt>Estatísticas completas:</dt><dd>http://steamcommunity.com/profiles/{{player.steamid}}/stats/{{appid}}</dd>
+                <dt>Tempo de jogo:</dt><dd>{{[0].playtime_forever}}h</dd>
+                  <dt>Estatísticas completas:</dt><dd>http://steamcommunity.com/profiles/{{[1]}}/stats/{{[0].appid}}</dd>
               </dl>
             </div>
           </div>

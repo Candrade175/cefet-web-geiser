@@ -3,20 +3,19 @@ var express = require('express'),
     fs = require('fs'),
  	Handlebars = require('handlebars');
 
-var aux,
- 	data,
-    games,
- 	notPlayedYet,
- 	orderedListOfGames,
-    player,
-    playerGames,
-    players,
-    topFive,
- 	urlJogador = '/jogador/';
+var games, 						//get the content from jogosPorJogador.json
+ 	notPlayedYet, 				//counter variable that counts the games that haven't been played yet by the player
+ 	orderedListOfGames, 		//get the list of games bought by a player and order it
+    listOfSteamIds, 			//list of steamids
+    playerSteamId, 				//the player steamid
+    players, 					//get the content from jogadores.json
+    topFive, 					//get the 5 games most played by a player 
+    topPlayed, 					//get the game most played by a player
+ 	urlJogador = '/jogador/'; 	//auxiliar variable used in app.get
 
 var _ = require('underscore');
 
-// carregar "banco de dados" (data/jogadores.json e data/jogosPorJogador.json)
+// carregar "banco de dados" (data/jogadores.json e dtaa/jogosPorJogador.json)
 // você pode colocar o conteúdo dos arquivos json no objeto "db" logo abaixo
 // dica: 3-4 linhas de código (você deve usar o módulo de filesystem (fs))
 var db = [ JSON.parse(fs.readFileSync('server/data/jogadores.json')),
@@ -51,24 +50,26 @@ app.get('/', function (req, res) {
 /**LÓGICA DE SELEÇÃO*/
 app.get(urlJogador + '*', function (req, res) {
 
-	player 				= _.find(players, function(num) { return req.url.indexOf(num.steamid) != -1 });
-	playerGames 		= _.find(Object.keys(games), function(num) { return num == player.steamid });
-	orderedListOfGames 	= _.sortBy(games[playerGames].games, function(num) { return (-1*num.playtime_forever); });
-	notPlayedYet 		= 0;
-	topFive 			= _.map(_.first(orderedListOfGames, [5]), function (num) { 
+	listOfSteamIds 		= _.find(players, function(num) { return req.url.indexOf(num.steamid) != -1 }); //return the steamids of all players
+	playerSteamId 		= _.find(Object.keys(games), function(num) { return num == listOfSteamIds.steamid }); //return the player steamid
+	orderedListOfGames 	= _.sortBy(games[playerSteamId].games, 'playtime_forever'); //get the games bought by the player above
+	notPlayedYet 		= 0; //count variable
+	topFive 			= _.map(_.chain(_.last(orderedListOfGames, [5])).reverse().value(), function (num) { 
 							num.playtime_forever = Math.round(num.playtime_forever/60); 
-							return num; });
+							return num; }); //order the list 
+	topPlayed 			= [topFive[0], listOfSteamIds.steamid]; //get the most played game by the player and add the player steamid to the list
 
-	for (var i = 0; i < games[playerGames].games.length; i++)
-		if (games[playerGames].games[i].playtime_forever == 0)
+	//count the number of games not played by the person
+	for (var i = 0; i < games[playerSteamId].games.length; i++)
+		if (games[playerSteamId].games[i].playtime_forever == 0)
 			notPlayedYet++;
-	
+
 	res.render('jogador', {
-		player: 		player,
-		games: 			games[playerGames],
+		player: 		listOfSteamIds,
+		games: 			games[playerSteamId],
 		notPlayedYet: 	notPlayedYet,
-		favoriteGame: 	topFive[0],
-		topFive: 		topFive
+		favoriteGame: 	topPlayed,
+		topFive: 		topFive,
 	});
 });
 
