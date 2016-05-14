@@ -66,20 +66,6 @@ app.get('/', function (req, res) {
 	})
 }*/
 
-/*DEFININDO AJUDANTES DE HANDLEBARS*/
-Handlebars.registerHelper('with', function(context, options) {
- 	return options.fn(context);
-});
-
-Handlebars.registerHelper('link', function(object) {
-  var url = Handlebars.escapeExpression(object.url),
-      text = Handlebars.escapeExpression(object.text);
-
-  return new Handlebars.SafeString(
-    "<img src='" + url + text + ".jpg'>"
-  );
-});
-
 /**LÓGICA DE SELEÇÃO*/
 app.get(urlJogador + '*', function (req, res) {
 	player = _.find(players, function(num) { return req.url.indexOf(num.steamid) != -1 });
@@ -107,6 +93,23 @@ app.get(urlJogador + '*', function (req, res) {
 	
 });
 
+/*DEFININDO AJUDANTES DE HANDLEBARS*/
+/*Handlebars.registerHelper(
+	'with',
+	function(context, options) {
+	 	return options.fn(context); 
+	 }
+);*/
+
+Handlebars.registerHelper(
+	'mergeLink', 
+ 	function(url, text) {
+		/*var url = Handlebars.escapeExpression(object.url),
+      	text = Handlebars.escapeExpression(object.text);*/
+  		return new Handlebars.SafeString("<img src='" + 
+  			url + text + ".jpg'>");
+  		}
+);
 // EXERCÍCIO 1
 // configurar para servir os arquivos estáticos da pasta "client"
 // dica: 1 linha de código
