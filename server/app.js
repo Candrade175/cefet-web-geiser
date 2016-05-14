@@ -5,7 +5,7 @@ var express = require('express'),
  	data,
     fs = require('fs'),
     games,
- 	Handlebars = require('hbs'),
+ 	Handlebars = require('handlebars'),
  	notPlayedYet,
  	orderedListOfGames,
     player,
@@ -33,7 +33,6 @@ games = db[1];
 // configurar qual templating engine usar. Sugestão: hbs (handlebars)
 //app.set('view engine', '???');
 app.set('view engine', 'hbs');
-
 
 // EXERCÍCIO 2
 // definir rota para página inicial --> renderizar a view index, usando os
@@ -66,20 +65,36 @@ app.get('/', function (req, res) {
 		});
 	})
 }*/
+
+/*DEFININDO AJUDANTES DE HANDLEBARS*/
+Handlebars.registerHelper('with', function(context, options) {
+ 	return options.fn(context);
+});
+
+Handlebars.registerHelper('link', function(object) {
+  var url = Handlebars.escapeExpression(object.url),
+      text = Handlebars.escapeExpression(object.text);
+
+  return new Handlebars.SafeString(
+    "<img src='" + url + text + ".jpg'>"
+  );
+});
+
+/**LÓGICA DE SELEÇÃO*/
 app.get(urlJogador + '*', function (req, res) {
 	player = _.find(players, function(num) { return req.url.indexOf(num.steamid) != -1 });
 	playerGames = _.find(Object.keys(games), function(num) { return num == player.steamid });
 	orderedListOfGames = _.sortBy(games[playerGames].games, function(num) { return (-1*num.playtime_forever); });
 	notPlayedYet = 0;
-	topFive = _.map(_.first(orderedListOfGames, [5]), function (num) { num.playtime_forever /= 60 ; return num; });
+	topFive = _.map(_.first(orderedListOfGames, [5]), function (num) { 
+		num.playtime_forever = Math.round(num.playtime_forever/60); 
+		return num; });
 
 	console.log(topFive);
 
 	for (var i = 0; i < games[playerGames].games.length; i++)
 		if (games[playerGames].games[i].playtime_forever == 0)
 			notPlayedYet++;
-
-	
 	
 	res.render('jogador', {
 		player: player,
@@ -90,11 +105,6 @@ app.get(urlJogador + '*', function (req, res) {
 	});
 
 	
-});
-
-
-Handlebars.registerHelper('with', function(context, options) {
- 	return options.fn(context);
 });
 
 // EXERCÍCIO 1
